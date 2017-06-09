@@ -11,7 +11,8 @@
 
 #include "ImageProcessingDoc.h"
 #include "ImageProcessingView.h"
-
+#include "GetAngle.h"
+using namespace cv;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -30,6 +31,9 @@ BEGIN_MESSAGE_MAP(CImageProcessingView, CScrollView)
 	ON_WM_RBUTTONUP()
 	ON_COMMAND(ID_ReadImage, &CImageProcessingView::OnReadimage)
 	ON_COMMAND(ID_ImageInv, &CImageProcessingView::OnImageinv)
+	ON_COMMAND(ID_RotateImage, &CImageProcessingView::OnRotateimage)
+	ON_COMMAND(ID_Mirror, &CImageProcessingView::OnMirror)
+	ON_COMMAND(ID_FFT, &CImageProcessingView::OnFft)
 END_MESSAGE_MAP()
 
 // CImageProcessingView 构造/析构
@@ -115,6 +119,10 @@ void CImageProcessingView::OnDraw(CDC* pDC)
 //显示位图
 	//CDC *pDC = GetDlgItem(ID)->GetDC();
 	if( FLAG ){
+		CSize sizeTotal;
+		// TODO: 计算此视图的合计大小
+		SIZE size={image->width,image->height};
+		SetScrollSizes(MM_TEXT,size);
 		HDC hDC= pDC->GetSafeHdc();
 		CRect rect;
 		pDC->GetBoundsRect(&rect,1);
@@ -262,4 +270,147 @@ void CImageProcessingView::UpdateWindow(void)
 	CDC *m_pDC;
 	m_pDC=GetDC();
 	OnDraw(m_pDC);
+}
+
+
+void CImageProcessingView::OnRotateimage()
+{
+	// TODO: 在此添加命令处理程序代码
+	CGetAngle x;
+	x.DoModal();
+	int degree = x.angle;
+	//int degree =  30;
+	IplImage *img = image;
+	double angle = degree  * CV_PI / 180.;   
+    double a = sin(angle), b = cos(angle);   
+    int width=img->width, height=img->height;  
+    //旋转后的新图尺寸  
+    int width_rotate= int(height * fabs(a) + width * fabs(b));    
+    int height_rotate=int(width * fabs(a) + height * fabs(b));    
+    IplImage* img_rotate = cvCreateImage(cvSize(width_rotate, height_rotate), img->depth, img->nChannels);    
+    cvZero(img_rotate);    
+    //保证原图可以任意角度旋转的最小尺寸  
+    int tempLength = sqrt((double)width * width + (double)height *height) + 10;    
+    int tempX = (tempLength + 1) / 2 - width / 2;    
+    int tempY = (tempLength + 1) / 2 - height / 2;    
+    IplImage* temp = cvCreateImage(cvSize(tempLength, tempLength), img->depth, img->nChannels);    
+    cvZero(temp);    
+    //将原图复制到临时图像tmp中心  
+    cvSetImageROI(temp, cvRect(tempX, tempY, width, height));    
+    cvCopy(img, temp, NULL);    
+    cvResetImageROI(temp);    
+    //旋转数组map  
+    // [ m0  m1  m2 ] ===>  [ A11  A12   b1 ]  
+    // [ m3  m4  m5 ] ===>  [ A21  A22   b2 ]  
+    float m[6];    
+    int w = temp->width;    
+    int h = temp->height;    
+    m[0] = b;    
+    m[1] = a;    
+    m[3] = -m[1];
+    m[4] = m[0];    
+    // 将旋转中心移至图像中间    
+    m[2] = w * 0.5f;    
+    m[5] = h * 0.5f;    
+    CvMat M = cvMat(2, 3, CV_32F, m);    
+    cvGetQuadrangleSubPix(temp, img_rotate, &M);    
+    cvReleaseImage(&temp); 
+	cvReleaseImage(&image);
+	image = img_rotate;
+	UpdateWindow();
+}
+
+
+void CImageProcessingView::OnMirror()
+{
+	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+	IplImage *img=image;
+	IplImage *outImage=cvCreateImage(cvSize(img->width, img->height), img->depth, img->nChannels);  
+    int height,width,step,channels;  
+	height=img->height;  
+    width=img->width;  
+    step=img->widthStep;  
+    channels=img->nChannels;  
+	for (int i=0;i<height;++i)
+    {
+        for (int j=0;j<width;++j)
+        {  
+            for (int k=0;k<channels;++k)
+            {  
+				outImage->imageData[i*step + j*channels + k]=img->imageData[i*step + (width - j - 1)*channels + k];  //每个通道每个像素取反  
+            }  
+        }  
+    }
+	image = outImage;
+	cvReleaseImage(&img);
+	FLAG = true;
+	UpdateWindow();
+}
+
+
+void CImageProcessingView::OnFft()
+{
+	// TODO: 在此添加命令处理程序代码
+		FLAG = false;
+    IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+    
+	if(image->nChannels == 3)cvCvtColor(image, gray, CV_RGB2GRAY);
+	cv::Mat src(gray);
+	cv::Mat dest;
+	Mat padded;                            //expand input image to optimal size
+	int m = getOptimalDFTSize(src.rows);
+	int n = getOptimalDFTSize(src.cols); // on the border add zero values
+	copyMakeBorder(src, padded, 0, m - src.rows, 0, n - src.cols, BORDER_CONSTANT, Scalar::all(0));
+
+
+	Mat planes[2];// = { Mat_<float>(padded), Mat::zeros(padded.size(), CV_32F) }; //!!!!
+	planes[0] = Mat_<float>(padded);
+	planes[1] = Mat::zeros(padded.size(), CV_32F);
+	Mat complexI;
+	merge(planes, 2, complexI);         // Add to the expanded another plane with zeros
+
+	dft(complexI, complexI);            // this way the result may fit in the source matrix
+
+										// compute the magnitude and switch to logarithmic scale
+										// => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
+	split(complexI, planes);                   // planes[0] = Re(DFT(I), planes[1] = Im(DFT(I))
+	magnitude(planes[0], planes[1], planes[0]);// planes[0] = magnitude
+	Mat magI = planes[0];
+
+	magI += Scalar::all(1);                    // switch to logarithmic scale
+	log(magI, magI);
+
+	// crop the spectrum, if it has an odd number of rows or columns
+	magI = magI(Rect(0, 0, magI.cols & -2, magI.rows & -2));
+
+	// rearrange the quadrants of Fourier image  so that the origin is at the image center
+	int cx = magI.cols / 2;
+	int cy = magI.rows / 2;
+
+	Mat q0(magI, Rect(0, 0, cx, cy));   // Top-Left - Create a ROI per quadrant
+	Mat q1(magI, Rect(cx, 0, cx, cy));  // Top-Right
+	Mat q2(magI, Rect(0, cy, cx, cy));  // Bottom-Left
+	Mat q3(magI, Rect(cx, cy, cx, cy)); // Bottom-Right
+
+	Mat tmp;                           // swap quadrants (Top-Left with Bottom-Right)
+	q0.copyTo(tmp);
+	q3.copyTo(q0);
+	tmp.copyTo(q3);
+
+	q1.copyTo(tmp);                    // swap quadrant (Top-Right with Bottom-Left)
+	q2.copyTo(q1);
+	tmp.copyTo(q2);
+
+	normalize(magI, magI, 0, 1, NORM_MINMAX); // Transform the matrix with float values into a
+											  // viewable image form (float between values 0 and 1).
+	
+	gray = image;
+	IplImage temp(magI);
+	image = cvCloneImage(&temp);;
+	cvReleaseImage(&gray);
+	//image = outImage;
+	//cvReleaseImage(&img);
+	FLAG = true;
+	UpdateWindow();
 }

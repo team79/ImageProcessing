@@ -212,6 +212,7 @@
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="CvvImage.h" />
     <ClInclude Include="FileView.h" />
+    <ClInclude Include="GetAngle.h" />
     <ClInclude Include="ImageProcessing.h" />
     <ClInclude Include="ImageProcessingDoc.h" />
     <ClInclude Include="ImageProcessingView.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CvvImage.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="GetAngle.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="ImageProcessingDoc.cpp" />
     <ClCompile Include="ImageProcessingView.cpp" />

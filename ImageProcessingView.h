@@ -55,6 +55,9 @@ public:
 	bool FLAG;
 	afx_msg void OnImageinv();
 	void UpdateWindow(void);
+	afx_msg void OnRotateimage();
+	afx_msg void OnMirror();
+	afx_msg void OnFft();
 };
 
 #ifndef _DEBUG  // ImageProcessingView.cpp 中的调试版本
