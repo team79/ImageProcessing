@@ -2,6 +2,10 @@
 #pragma once
 
 #include "ViewTree.h"
+#include "highgui.h"
+#include <opencv2/opencv.hpp> 
+#include "opencv.hpp"
+#include "CvvImage.h"
 
 class CFileViewToolBar : public CMFCToolBar
 {
@@ -51,5 +55,6 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 
 	DECLARE_MESSAGE_MAP()
+
 };
 

@@ -177,6 +177,8 @@ void CFileView::OnProperties()
 void CFileView::OnFileOpen()
 {
 	// TODO: 在此处添加命令处理程序代码
+
+
 }
 
 void CFileView::OnFileOpenWith()

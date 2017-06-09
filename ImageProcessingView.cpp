@@ -11,10 +11,7 @@
 
 #include "ImageProcessingDoc.h"
 #include "ImageProcessingView.h"
-#include "highgui.h"
-#include <opencv2/opencv.hpp> 
-#include "opencv.hpp"
-#include "CvvImage.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -22,15 +19,17 @@
 
 // CImageProcessingView
 
-IMPLEMENT_DYNCREATE(CImageProcessingView, CView)
+IMPLEMENT_DYNCREATE(CImageProcessingView, CScrollView)
 
-BEGIN_MESSAGE_MAP(CImageProcessingView, CView)
+BEGIN_MESSAGE_MAP(CImageProcessingView, CScrollView)
 	// 标准打印命令
-	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT, &CScrollView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CImageProcessingView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_COMMAND(ID_ReadImage, &CImageProcessingView::OnReadimage)
+	ON_COMMAND(ID_ImageInv, &CImageProcessingView::OnImageinv)
 END_MESSAGE_MAP()
 
 // CImageProcessingView 构造/析构
@@ -43,12 +42,15 @@ CImageProcessingView::CImageProcessingView()
 
 CImageProcessingView::~CImageProcessingView()
 {
+	if(image != NULL )	
+		cvReleaseImage(&image);
 }
 
 BOOL CImageProcessingView::PreCreateWindow(CREATESTRUCT& cs)
 {
-
-	return CView::PreCreateWindow(cs);
+	FLAG = false;
+	image = NULL;
+	return CScrollView::PreCreateWindow(cs);
 }
 
 // CImageProcessingView 绘制
@@ -112,17 +114,28 @@ void CImageProcessingView::OnDraw(CDC* pDC)
 	// CPictureDoc* pDoc = GetDocument();
 //显示位图
 	//CDC *pDC = GetDlgItem(ID)->GetDC();
-	HDC hDC= pDC->GetSafeHdc();
-	CRect rect;
-	pDC->GetBoundsRect(&rect,1);
-	IplImage* ipl = cvLoadImage( "F:\\813358355578758264.bmp", 1 );
-	CvvImage cimg;
-	cimg.CopyOf( ipl ); // 复制图片
-	SetRect(rect,0,0,0+ipl->width,0+ipl->height);
-	cimg.DrawToHDC( hDC, &rect ); // 将图片绘制到显示控件的指定区域内
-	ReleaseDC( pDC );
+	if( FLAG ){
+		HDC hDC= pDC->GetSafeHdc();
+		CRect rect;
+		pDC->GetBoundsRect(&rect,1);
+		//IplImage* ipl = cvLoadImage( "F:\\1.png", 1 );
+		CvvImage cimg;
+		cimg.CopyOf( image ); // 复制图片
+		SetRect(rect,0,0,0+image->width,0+image->height);
+		cimg.DrawToHDC( hDC, &rect ); // 将图片绘制到显示控件的指定区域内
+		ReleaseDC( pDC );
+	}	
 }
 
+void CImageProcessingView::OnInitialUpdate()
+{
+	CScrollView::OnInitialUpdate();
+
+	CSize sizeTotal;
+	// TODO: 计算此视图的合计大小
+	SIZE size={3000,1500};
+    SetScrollSizes(MM_TEXT,size);//滚动窗口的最大区域
+}
 
 // CImageProcessingView 打印
 
@@ -169,12 +182,12 @@ void CImageProcessingView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 #ifdef _DEBUG
 void CImageProcessingView::AssertValid() const
 {
-	CView::AssertValid();
+	CScrollView::AssertValid();
 }
 
 void CImageProcessingView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+	CScrollView::Dump(dc);
 }
 
 CImageProcessingDoc* CImageProcessingView::GetDocument() const // 非调试版本是内联的
@@ -186,3 +199,67 @@ CImageProcessingDoc* CImageProcessingView::GetDocument() const // 非调试版本是内
 
 
 // CImageProcessingView 消息处理程序
+
+
+void CImageProcessingView::OnReadimage()
+{
+	CString strFile = "";  
+      
+    CFileDialog    dlgFile(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,_T("PNG(*.png)|*.png|位图文件(*.BMP)|*.BMP|jpg文件(*.jpg)|*.jpg|All Files (*.*)|*.*||")); 
+    if (dlgFile.DoModal())
+    {  
+        strFile = dlgFile.GetPathName();
+		if( strFile == "" ){
+			return;
+		}
+		if(FLAG){
+			cvReleaseImage(&image);
+			FLAG = false;
+		}
+		image = cvLoadImage( strFile, 1 );	
+		CSize sizeTotal;
+		// TODO: 计算此视图的合计大小
+		SIZE size={image->width,image->height};
+		SetScrollSizes(MM_TEXT,size);
+		if( image != NULL ){
+			FLAG = true;
+		}
+    }
+	UpdateWindow();
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CImageProcessingView::OnImageinv()
+{
+	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+	IplImage *img=image,*outImage=0;  
+    int height,width,step,channels;  
+    uchar *data;  
+	height=img->height;  
+    width=img->width;  
+    step=img->widthStep;  
+    channels=img->nChannels;  
+    data=(uchar*)img->imageData; 
+	for (int i=0;i<height;++i)  
+    {  
+        for (int j=0;j<width;++j)  
+        {  
+            for (int k=0;k<channels;++k)  
+            {  
+                data[i*step + j*channels + k]=255-data[i*step + j*channels + k];  //每个通道每个像素取反  
+            }  
+        }  
+    }  
+	FLAG = true;
+	UpdateWindow();
+}
+
+
+void CImageProcessingView::UpdateWindow(void)
+{
+	CDC *m_pDC;
+	m_pDC=GetDC();
+	OnDraw(m_pDC);
+}

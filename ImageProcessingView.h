@@ -3,9 +3,12 @@
 //
 
 #pragma once
+#include "highgui.h"
+#include <opencv2/opencv.hpp> 
+#include "opencv.hpp"
+#include "CvvImage.h"
 
-
-class CImageProcessingView : public CView
+class CImageProcessingView : public CScrollView
 {
 protected: // 仅从序列化创建
 	CImageProcessingView();
@@ -23,6 +26,7 @@ public:
 	virtual void OnDraw(CDC* pDC);  // 重写以绘制该视图
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
+	virtual void OnInitialUpdate(); // 构造后第一次调用
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
@@ -43,6 +47,14 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnReadimage();
+
+public:
+	IplImage* image;
+	bool FLAG;
+	afx_msg void OnImageinv();
+	void UpdateWindow(void);
 };
 
 #ifndef _DEBUG  // ImageProcessingView.cpp 中的调试版本

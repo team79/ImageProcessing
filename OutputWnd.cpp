@@ -4,7 +4,6 @@
 #include "OutputWnd.h"
 #include "Resource.h"
 #include "MainFrm.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -97,7 +96,7 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 		CString strItem;
 		wndListBox.GetText(i, strItem);
 
-		cxExtentMax = max(cxExtentMax, dc.GetTextExtent(strItem).cx);
+		cxExtentMax = std::max((LONG)cxExtentMax, dc.GetTextExtent(strItem).cx);
 	}
 
 	wndListBox.SetHorizontalExtent(cxExtentMax);

@@ -1,21 +1,37 @@
-﻿生成启动时间为 2017/6/9 13:49:42。
-     1>项目“F:\ImageProcessing\ImageProcessing.vcxproj”在节点 2 上(build 个目标)。
+﻿生成启动时间为 2017/6/9 14:29:43。
+     1>项目“F:\DML\github\ImageProcessing\ImageProcessing.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\ImageProcessing.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
-         所有输出均为最新。
-         d:\VS2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\ImageProcessing.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ImageProcessingView.cpp
+         d:\VS2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\ImageProcessing.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         d:\VS2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\ImageProcessing.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ChildFrm.cpp ClassView.cpp CvvImage.cpp FileView.cpp ImageProcessing.cpp ImageProcessingDoc.cpp ImageProcessingView.cpp MainFrm.cpp OutputWnd.cpp PropertiesWnd.cpp ViewTree.cpp
+         ViewTree.cpp
+         PropertiesWnd.cpp
+         OutputWnd.cpp
+         MainFrm.cpp
          ImageProcessingView.cpp
-     1>f:\imageprocessing\imageprocessingview.cpp(75): warning C4244: “初始化”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
+     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\vs2010\vc\include\stdio.h(234) : 参见“fopen”的声明
+         ImageProcessingDoc.cpp
+         ImageProcessing.cpp
+         FileView.cpp
+         CvvImage.cpp
+     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\vs2010\vc\include\stdio.h(234) : 参见“fopen”的声明
+         ClassView.cpp
+         ChildFrm.cpp
+         正在生成代码...
        ResourceCompile:
-         所有输出均为最新。
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\ImageProcessing.res" ImageProcessing.rc 
        ManifestResourceCompile:
-         所有输出均为最新。
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ImageProcessing.exe.embed.manifest.res" Debug\ImageProcessing_manifest.rc 
        Link:
-         d:\VS2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\hzh\Desktop\ImageProcessing\Debug\ImageProcessing.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\ImageProcessing.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\hzh\Desktop\ImageProcessing\Debug\ImageProcessing.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\hzh\Desktop\ImageProcessing\Debug\ImageProcessing.lib" /MACHINE:X86 Debug\ImageProcessing.res
+         d:\VS2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\DML\github\ImageProcessing\Debug\ImageProcessing.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\opencv\build\x64\vc10\lib opencv_ml2410d.lib opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_objdetect2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_nonfree2410d.lib opencv_ocl2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_superres2410d.lib opencv_videostab2410d.lib opencv_objdetect2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_nonfree2410.lib opencv_ocl2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_superres2410.lib opencv_videostab2410.lib opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib /MANIFEST /ManifestFile:"Debug\ImageProcessing.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\DML\github\ImageProcessing\Debug\ImageProcessing.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\DML\github\ImageProcessing\Debug\ImageProcessing.lib" /MACHINE:X86 Debug\ImageProcessing.res
          Debug\ImageProcessing.exe.embed.manifest.res
          Debug\ChildFrm.obj
          Debug\ClassView.obj
+         Debug\CvvImage.obj
          Debug\FileView.obj
          Debug\ImageProcessing.obj
          Debug\ImageProcessingDoc.obj
@@ -25,17 +41,20 @@
          Debug\PropertiesWnd.obj
          Debug\stdafx.obj
          Debug\ViewTree.obj
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\ImageProcessing.exe.embed.manifest" /manifest Debug\ImageProcessing.exe.intermediate.manifest d:\VS2010\VC\Include\Manifest\dpiaware.manifest
-         所有输出均为最新。
-       LinkEmbedManifest:
-         所有输出均为最新。
-         ImageProcessing.vcxproj -> C:\Users\hzh\Desktop\ImageProcessing\Debug\ImageProcessing.exe
-       FinalizeBuildStatus:
-         正在删除文件“Debug\ImageProcessing.unsuccessfulbuild”。
-         正在对“Debug\ImageProcessing.lastbuildstate”执行 Touch 任务。
-     1>已完成生成项目“F:\ImageProcessing\ImageProcessing.vcxproj”(build 个目标)的操作。
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvReleaseImage，该符号在函数 "public: virtual void __thiscall CvvImage::Destroy(void)" (?Destroy@CvvImage@@UAEXXZ) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvCreateImage，该符号在函数 "public: virtual bool __thiscall CvvImage::Create(int,int,int,int)" (?Create@CvvImage@@UAE_NHHHH@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvConvertImage，该符号在函数 "public: virtual void __thiscall CvvImage::CopyOf(struct _IplImage *,int)" (?CopyOf@CvvImage@@UAEXPAU_IplImage@@H@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvGetSize，该符号在函数 "public: virtual void __thiscall CvvImage::CopyOf(struct _IplImage *,int)" (?CopyOf@CvvImage@@UAEXPAU_IplImage@@H@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvLoadImage，该符号在函数 "public: virtual bool __thiscall CvvImage::Load(char const *,int)" (?Load@CvvImage@@UAE_NPBDH@Z) 中被引用
+     1>ImageProcessingView.obj : error LNK2001: 无法解析的外部符号 _cvLoadImage
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvSetImageROI，该符号在函数 "public: virtual bool __thiscall CvvImage::LoadRect(char const *,int,struct CvRect)" (?LoadRect@CvvImage@@UAE_NPBDHUCvRect@@@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvSaveImage，该符号在函数 "public: virtual bool __thiscall CvvImage::Save(char const *)" (?Save@CvvImage@@UAE_NPBD@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvShowImage，该符号在函数 "public: virtual void __thiscall CvvImage::Show(char const *)" (?Show@CvvImage@@UAEXPBD@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvGetImageROI，该符号在函数 "public: virtual void __thiscall CvvImage::DrawToHDC(struct HDC__ *,struct tagRECT *)" (?DrawToHDC@CvvImage@@UAEXPAUHDC__@@PAUtagRECT@@@Z) 中被引用
+     1>CvvImage.obj : error LNK2019: 无法解析的外部符号 _cvSet，该符号在函数 "public: virtual void __thiscall CvvImage::Fill(int)" (?Fill@CvvImage@@UAEXH@Z) 中被引用
+     1>F:\DML\github\ImageProcessing\Debug\ImageProcessing.exe : fatal error LNK1120: 10 个无法解析的外部命令
+     1>已完成生成项目“F:\DML\github\ImageProcessing\ImageProcessing.vcxproj”(build 个目标)的操作 - 失败。
 
-生成成功。
+生成失败。
 
-已用时间 00:00:02.17
+已用时间 00:00:10.60
