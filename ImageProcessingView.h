@@ -58,6 +58,10 @@ public:
 	afx_msg void OnRotateimage();
 	afx_msg void OnMirror();
 	afx_msg void OnFft();
+	afx_msg void OnHistimage();
+	afx_msg void OnPowerenhance();
+	afx_msg void OnSobelimage();
+	afx_msg void OnLaplaceenhance();
 };
 
 #ifndef _DEBUG  // ImageProcessingView.cpp 中的调试版本

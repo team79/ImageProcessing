@@ -12,6 +12,7 @@
 #include "ImageProcessingDoc.h"
 #include "ImageProcessingView.h"
 #include "GetAngle.h"
+#include <algorithm>
 using namespace cv;
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,6 +35,10 @@ BEGIN_MESSAGE_MAP(CImageProcessingView, CScrollView)
 	ON_COMMAND(ID_RotateImage, &CImageProcessingView::OnRotateimage)
 	ON_COMMAND(ID_Mirror, &CImageProcessingView::OnMirror)
 	ON_COMMAND(ID_FFT, &CImageProcessingView::OnFft)
+	ON_COMMAND(ID_HistImage, &CImageProcessingView::OnHistimage)
+	ON_COMMAND(ID_PowerEnhance, &CImageProcessingView::OnPowerenhance)
+	ON_COMMAND(ID_SobelImage, &CImageProcessingView::OnSobelimage)
+	ON_COMMAND(ID_LaplaceEnhance, &CImageProcessingView::OnLaplaceenhance)
 END_MESSAGE_MAP()
 
 // CImageProcessingView 构造/析构
@@ -208,7 +213,9 @@ CImageProcessingDoc* CImageProcessingView::GetDocument() const // 非调试版本是内
 
 // CImageProcessingView 消息处理程序
 
-
+//*******************************************************************
+//                      输入图像
+//*******************************************************************
 void CImageProcessingView::OnReadimage()
 {
 	CString strFile = "";  
@@ -237,7 +244,9 @@ void CImageProcessingView::OnReadimage()
 	// TODO: 在此添加命令处理程序代码
 }
 
-
+//*******************************************************************
+//                      取反
+//*******************************************************************
 void CImageProcessingView::OnImageinv()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -272,7 +281,9 @@ void CImageProcessingView::UpdateWindow(void)
 	OnDraw(m_pDC);
 }
 
-
+//*******************************************************************
+//                      旋转
+//*******************************************************************
 void CImageProcessingView::OnRotateimage()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -320,7 +331,9 @@ void CImageProcessingView::OnRotateimage()
 	UpdateWindow();
 }
 
-
+//*******************************************************************
+//                      镜像
+//*******************************************************************
 void CImageProcessingView::OnMirror()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -348,11 +361,13 @@ void CImageProcessingView::OnMirror()
 	UpdateWindow();
 }
 
-
+//*******************************************************************
+//                      FFT变换
+//*******************************************************************
 void CImageProcessingView::OnFft()
 {
 	// TODO: 在此添加命令处理程序代码
-		FLAG = false;
+	FLAG = false;
     IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
     
 	if(image->nChannels == 3)cvCvtColor(image, gray, CV_RGB2GRAY);
@@ -409,6 +424,187 @@ void CImageProcessingView::OnFft()
 	IplImage temp(magI);
 	image = cvCloneImage(&temp);;
 	cvReleaseImage(&gray);
+	//image = outImage;
+	//cvReleaseImage(&img);
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      直方图均衡化
+//*******************************************************************
+void CImageProcessingView::OnHistimage()
+{
+// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+	//IplImage* gray;
+    IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+    
+	if(image->nChannels == 3){
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}
+	else{
+		cvCopy(image,gray);
+	}
+	cv::Mat src(gray);
+	cv::Mat res;
+	
+	equalizeHist(src, res);
+	gray = image;
+	IplImage temp(res);
+	image = cvCloneImage(&temp);;
+	cvReleaseImage(&gray);
+	//image = outImage;
+	//cvReleaseImage(&img);
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      指数增强
+//*******************************************************************
+void CImageProcessingView::OnPowerenhance()
+{
+	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+    //IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+    IplImage* gray;
+	//if(image->nChannels == 3){
+	//	cvCvtColor(image, gray, CV_RGB2GRAY);
+	//}
+	//else{
+	//	cvCopy(image,gray);
+	//}
+	cv::Mat src(image);
+	cv::Mat res;
+
+
+	Mat imageLog(src.size(), CV_32FC3);
+	for (int i = 0; i < src.rows; i++)
+	{
+		for (int j = 0; j < src.cols; j++)
+		{
+			imageLog.at<Vec3f>(i, j)[0] = std::log( (double)( 1 + src.at<Vec3b>(i, j)[0]));
+			imageLog.at<Vec3f>(i, j)[1] = std::log( (double)( 1 + src.at<Vec3b>(i, j)[1]));
+			imageLog.at<Vec3f>(i, j)[2] = std::log( (double)( 1 + src.at<Vec3b>(i, j)[2]) );
+		}
+	}
+	//归一化到0~255    
+	normalize(imageLog, imageLog, 0, 255, CV_MINMAX);
+	//转换成8bit图像显示    
+	convertScaleAbs(imageLog, imageLog);
+	
+	gray = image;
+	IplImage temp(imageLog);
+	image = cvCloneImage(&temp);;
+	cvReleaseImage(&gray);
+	//image = outImage;
+	//cvReleaseImage(&img);
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      Sobel边缘检测
+//*******************************************************************
+void CImageProcessingView::OnSobelimage()
+{
+	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+    IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+    
+	if(image->nChannels == 3){
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}
+	else{
+		cvCopy(image,gray);
+	}
+	cv::Mat src(gray);
+	cv::Mat res;
+
+
+	int scale = 1;
+	int delta = 0;
+	int ddepth = CV_16S;
+	/// Convert it to gray
+	Mat src_gray = src, grad;
+	Mat grad_x, grad_y;
+	Mat abs_grad_x, abs_grad_y;
+
+	/// Gradient X
+	//Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
+	Sobel(src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+	convertScaleAbs(grad_x, abs_grad_x);
+
+	/// Gradient Y
+	//Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
+	Sobel(src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
+	convertScaleAbs(grad_y, abs_grad_y);
+
+	/// Total Gradient (approximate)
+	addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+	
+	gray = image;
+	IplImage temp(grad);
+	image = cvCloneImage(&temp);;
+	cvReleaseImage(&gray);
+	//image = outImage;
+	//cvReleaseImage(&img);
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      Laplace增强
+//*******************************************************************
+void CImageProcessingView::OnLaplaceenhance()
+{
+	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+	if(image->nChannels == 3 ){
+		IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,3);
+    
+		//if(image->nChannels == 3){
+		//	cvCvtColor(image, gray, CV_RGB2GRAY);
+		//}
+		//else{
+			cvCopy(image,gray);
+		//}
+		cv::Mat src(gray);
+		cv::Mat res;
+
+
+		Mat imageEnhance;
+		Mat kernel = (Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);
+		filter2D(src, imageEnhance, CV_8UC3, kernel);
+		
+		gray = image;
+		IplImage temp(imageEnhance);
+		image = cvCloneImage(&temp);;
+		cvReleaseImage(&gray);
+	}else{
+		IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+    
+		//if(image->nChannels == 3){
+		//	cvCvtColor(image, gray, CV_RGB2GRAY);
+		//}
+		//else{
+			cvCopy(image,gray);
+		//}
+		cv::Mat src(gray);
+		cv::Mat res;
+
+
+		Mat imageEnhance;
+		Mat kernel = (Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);
+		filter2D(src, imageEnhance, CV_8UC1, kernel);
+		
+		gray = image;
+		IplImage temp(imageEnhance);
+		image = cvCloneImage(&temp);;
+		cvReleaseImage(&gray);
+	}
+    
 	//image = outImage;
 	//cvReleaseImage(&img);
 	FLAG = true;
