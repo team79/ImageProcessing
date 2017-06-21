@@ -13,6 +13,8 @@
 #include "ImageProcessingView.h"
 #include "GetAngle.h"
 #include <algorithm>
+#include <algorithm>
+#include "Huffman.h"
 using namespace cv;
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -39,6 +41,8 @@ BEGIN_MESSAGE_MAP(CImageProcessingView, CScrollView)
 	ON_COMMAND(ID_PowerEnhance, &CImageProcessingView::OnPowerenhance)
 	ON_COMMAND(ID_SobelImage, &CImageProcessingView::OnSobelimage)
 	ON_COMMAND(ID_LaplaceEnhance, &CImageProcessingView::OnLaplaceenhance)
+	ON_COMMAND(ID_Medianfilter, &CImageProcessingView::OnMedianfilter)
+	ON_COMMAND(ID_HUFFMAN_Read, &CImageProcessingView::OnHuffmanRead)
 END_MESSAGE_MAP()
 
 // CImageProcessingView 构造/析构
@@ -496,7 +500,7 @@ void CImageProcessingView::OnPowerenhance()
 	
 	gray = image;
 	IplImage temp(imageLog);
-	image = cvCloneImage(&temp);;
+	image = cvCloneImage(&temp);
 	cvReleaseImage(&gray);
 	//image = outImage;
 	//cvReleaseImage(&img);
@@ -609,4 +613,49 @@ void CImageProcessingView::OnLaplaceenhance()
 	//cvReleaseImage(&img);
 	FLAG = true;
 	UpdateWindow();
+}
+
+
+void CImageProcessingView::OnMedianfilter()
+{
+	// TODO: 在此添加命令处理程序代码
+	int step = image->widthStep;
+	int height = image->height;
+	int width = image->width;
+	int channel = image->nChannels;
+	for( int i = 1; i < height - 1; i++ ){
+		for( int j = 1; j < width - 1; j++ ){
+			for( int k = 0; k < channel; k++ ){
+				int temp[9];
+				temp[0] = image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				temp[1] = image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				temp[2] = image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				temp[3] = image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				temp[4] = image->imageData[( i ) * step + ( j ) * channel + k ];
+				temp[5] = image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				temp[6] = image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				temp[7] = image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				temp[8] = image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+				std::sort( temp, temp + 9 );
+				image->imageData[( i ) * step + ( j ) * channel + k ] = temp[4];
+			}
+		}
+	}
+}
+
+void CImageProcessingView::OnHuffmanRead()
+{
+	// TODO: 在此添加命令处理程序代码
+	CString strFile = "";
+	CFileDialog    dlgFile(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,_T("All Files (*.*)|*.*||")); 
+    if (dlgFile.DoModal())
+    {  
+        strFile = dlgFile.GetPathName();
+		if( strFile == "" ){
+			return;
+		}
+		CHuffman hu;
+		hu.filepath = strFile;
+		hu.DoModal();	
+    }
 }

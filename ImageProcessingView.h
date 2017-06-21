@@ -62,6 +62,8 @@ public:
 	afx_msg void OnPowerenhance();
 	afx_msg void OnSobelimage();
 	afx_msg void OnLaplaceenhance();
+	afx_msg void OnMedianfilter();
+	afx_msg void OnHuffmanRead();
 };
 
 #ifndef _DEBUG  // ImageProcessingView.cpp 中的调试版本
