@@ -64,6 +64,11 @@ public:
 	afx_msg void OnLaplaceenhance();
 	afx_msg void OnMedianfilter();
 	afx_msg void OnHuffmanRead();
+	afx_msg void OnRoberts();
+	afx_msg void OnSobel();
+	afx_msg void OnPrewitt();
+	afx_msg void OnLaplace();
+	afx_msg void OnLineardetection();
 };
 
 #ifndef _DEBUG  // ImageProcessingView.cpp 中的调试版本

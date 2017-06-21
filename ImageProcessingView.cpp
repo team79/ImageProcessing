@@ -43,6 +43,11 @@ BEGIN_MESSAGE_MAP(CImageProcessingView, CScrollView)
 	ON_COMMAND(ID_LaplaceEnhance, &CImageProcessingView::OnLaplaceenhance)
 	ON_COMMAND(ID_Medianfilter, &CImageProcessingView::OnMedianfilter)
 	ON_COMMAND(ID_HUFFMAN_Read, &CImageProcessingView::OnHuffmanRead)
+	ON_COMMAND(ID_Roberts, &CImageProcessingView::OnRoberts)
+	ON_COMMAND(ID_Sobel, &CImageProcessingView::OnSobel)
+	ON_COMMAND(ID_Prewitt, &CImageProcessingView::OnPrewitt)
+	ON_COMMAND(ID_Laplace, &CImageProcessingView::OnLaplace)
+	ON_COMMAND(ID_LinearDetection, &CImageProcessingView::OnLineardetection)
 END_MESSAGE_MAP()
 
 // CImageProcessingView 构造/析构
@@ -615,7 +620,9 @@ void CImageProcessingView::OnLaplaceenhance()
 	UpdateWindow();
 }
 
-
+//*******************************************************************
+//                      中值滤波
+//*******************************************************************
 void CImageProcessingView::OnMedianfilter()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -643,6 +650,9 @@ void CImageProcessingView::OnMedianfilter()
 	}
 }
 
+//*******************************************************************
+//                      Huffman编码
+//*******************************************************************
 void CImageProcessingView::OnHuffmanRead()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -658,4 +668,289 @@ void CImageProcessingView::OnHuffmanRead()
 		hu.filepath = strFile;
 		hu.DoModal();	
     }
+}
+
+//*******************************************************************
+//                      Robert边缘检测
+//*******************************************************************
+void CImageProcessingView::OnRoberts()
+{
+	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+
+	IplImage* gray;
+	if(image->nChannels==3){
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}else{
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCopy(image,gray);
+	}
+	
+	cvReleaseImage(&image);
+	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
+	cvCopy(gray,image);
+
+	int step = image->widthStep;
+	int height = image->height;
+	int width = image->width;
+	int channel = image->nChannels;
+	for( int i = 1; i < height; i++ ){
+		for( int j = 1; j < width; j++ ){
+			for( int k = 0; k < channel; k++ ){
+				int t1 = 0, t2 = 0;
+				t1 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += 1 * image->imageData[( i ) * step + ( j ) * channel + k ];
+
+				t2 += -1 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t2 += 1 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+
+				gray->imageData[( i ) * step + ( j ) * channel + k ] = ( (int)std::sqrt((double)t1*t1+t2*t2) );
+			}
+		}
+	}
+	//image = outImage;
+	//cvReleaseImage(&img);
+	cvReleaseImage(&image);
+	image = gray;
+	FLAG = true;
+	UpdateWindow();
+}
+
+
+
+	//// TODO: 在此添加命令处理程序代码
+	//FLAG = false;
+
+	//IplImage* gray;
+	//if(image->nChannels==3){
+	//	gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+	//	cvCvtColor(image, gray, CV_RGB2GRAY);
+	//}else{
+	//	gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+	//	cvCopy(image,gray);
+	//}
+	//
+	//cvReleaseImage(&image);
+	//image = gray;
+
+	//int step = image->widthStep;
+	//int height = image->height;
+	//int width = image->width;
+	//int channel = image->nChannels;
+	//for( int i = 1; i < height - 1; i++ ){
+	//	for( int j = 1; j < width - 1; j++ ){
+	//		for( int k = 0; k < channel; k++ ){
+	//			int t1 = 0, t2 = 0;
+	//			t1 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+	//			t1 += -2 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+	//			t1 += -1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+	//			t1 += -0 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+	//			t1 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+	//			t1 += -0 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+	//			t1 += 1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+	//			t1 += 2 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+	//			t1 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+	//			t2 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+	//			t2 += 0 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+	//			t2 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+	//			t2 += -2 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+	//			t2 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+	//			t2 += 2 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+	//			t2 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+	//			t2 += 0 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+	//			t2 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+	//			image->imageData[( i ) * step + ( j ) * channel + k ] = (int)std::sqrt((double)t1*t1+t2*t2);
+	//		}
+	//	}
+	//}
+	////image = outImage;
+	////cvReleaseImage(&img);
+
+	//FLAG = true;
+//UpdateWindow();
+
+//*******************************************************************
+//                      Sobel边缘检测
+//*******************************************************************
+void CImageProcessingView::OnSobel()
+{
+	// TODO: 在此添加命令处理程序代码
+		FLAG = false;
+
+	IplImage* gray;
+	if(image->nChannels==3){
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}else{
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCopy(image,gray);
+	}
+	
+	cvReleaseImage(&image);
+	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
+	cvCopy(gray,image);
+
+	int step = image->widthStep;
+	int height = image->height;
+	int width = image->width;
+	int channel = image->nChannels;
+	for( int i = 1; i < height - 1; i++ ){
+		for( int j = 1; j < width - 1; j++ ){
+			for( int k = 0; k < channel; k++ ){
+				int t1 = 0, t2 = 0;
+				t1 += 1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += 2 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t1 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				t1 += -0 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				t1 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+				t1 += -0 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				t1 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += -2 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				t1 += -1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+				t2 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t2 += 0 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t2 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				t2 += -2 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				t2 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+				t2 += 2 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				t2 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				t2 += 0 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				t2 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+				gray->imageData[( i ) * step + ( j ) * channel + k ] = (int)std::sqrt((double)t1*t1+t2*t2);
+			}
+		}
+	}
+	//image = outImage;
+	//cvReleaseImage(&img);
+	cvReleaseImage(&image);
+	image = gray;
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      Prewitt边缘检测
+//*******************************************************************
+void CImageProcessingView::OnPrewitt()
+{
+	// TODO: 在此添加命令处理程序代码
+		FLAG = false;
+
+	IplImage* gray;
+	if(image->nChannels==3){
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}else{
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCopy(image,gray);
+	}
+	
+	cvReleaseImage(&image);
+	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
+	cvCopy(gray,image);
+
+	int step = image->widthStep;
+	int height = image->height;
+	int width = image->width;
+	int channel = image->nChannels;
+	for( int i = 1; i < height - 1; i++ ){
+		for( int j = 1; j < width - 1; j++ ){
+			for( int k = 0; k < channel; k++ ){
+				int t1 = 0, t2 = 0;
+				t1 += 1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += 1 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t1 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				t1 += -0 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				t1 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+				t1 += -0 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				t1 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += -1 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				t1 += -1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+				t2 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t2 += 0 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t2 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				t2 += -1 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				t2 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+				t2 += 1 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				t2 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				t2 += 0 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				t2 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+				gray->imageData[( i ) * step + ( j ) * channel + k ] = (int)std::sqrt((double)t1*t1+t2*t2);
+			}
+		}
+	}
+	//image = outImage;
+	//cvReleaseImage(&img);
+	cvReleaseImage(&image);
+	image = gray;
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      Laplace边缘检测
+//*******************************************************************
+void CImageProcessingView::OnLaplace()
+{
+	// TODO: 在此添加命令处理程序代码
+		FLAG = false;
+
+	IplImage* gray;
+	if(image->nChannels==3){
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}else{
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCopy(image,gray);
+	}
+	
+	cvReleaseImage(&image);
+	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
+	cvCopy(gray,image);
+
+	int step = image->widthStep;
+	int height = image->height;
+	int width = image->width;
+	int channel = image->nChannels;
+	for( int i = 1; i < height - 1; i++ ){
+		for( int j = 1; j < width - 1; j++ ){
+			for( int k = 0; k < channel; k++ ){
+				int t1 = 0, t2 = 0;
+				/*t1 += 0 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += 1 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t1 += 0 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				t1 += 1 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				t1 += 4 * image->imageData[( i ) * step + ( j ) * channel + k ];
+				t1 += 1 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				t1 += 0 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				t1 += 1 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				t1 += 0 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];*/
+				t2 += 1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+				t2 += 1 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+				t2 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+				t2 += 1 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+				t2 += -8 * image->imageData[( i ) * step + ( j ) * channel + k ];
+				t2 += 1 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+				t2 += 1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+				t2 += 1 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+				t2 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+				gray->imageData[( i ) * step + ( j ) * channel + k ] = (int)std::sqrt((double)t1*t1+t2*t2);
+			}
+		}
+	}
+	//image = outImage;
+	//cvReleaseImage(&img);
+	cvReleaseImage(&image);
+	image = gray;
+	FLAG = true;
+	UpdateWindow();
+}
+
+//*******************************************************************
+//                      直线检测
+//*******************************************************************
+void CImageProcessingView::OnLineardetection()
+{
+	// TODO: 在此添加命令处理程序代码
 }
