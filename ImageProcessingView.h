@@ -69,6 +69,9 @@ public:
 	afx_msg void OnPrewitt();
 	afx_msg void OnLaplace();
 	afx_msg void OnLineardetection();
+public:
+	IplImage* SearchLine(IplImage* img, double Through);
+	void HoughLineDetect(IplImage* binaryimage, IplImage* lpDst, int threshold);
 };
 
 #ifndef _DEBUG  // ImageProcessingView.cpp 中的调试版本

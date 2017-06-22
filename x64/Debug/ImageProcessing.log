@@ -1,10 +1,10 @@
-﻿生成启动时间为 2017/6/21 19:46:57。
+﻿生成启动时间为 2017/6/22 10:39:11。
      1>项目“D:\github\ImageProcessing\ImageProcessing.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“x64\Debug\ImageProcessing.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          所有输出均为最新。
-         d:\vs2010\VC\bin\x86_amd64\CL.exe /c /ID:\opencv\build\x64\vc10\bin /Zi /nologo /W3 /WX- /Od /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"x64\Debug\ImageProcessing.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt ChildFrm.cpp ClassView.cpp FileView.cpp GetAngle.cpp Huffman.cpp ImageProcessing.cpp ImageProcessingDoc.cpp ImageProcessingView.cpp MainFrm.cpp OutputWnd.cpp PropertiesWnd.cpp
+         d:\vs2010\VC\bin\x86_amd64\CL.exe /c /ID:\opencv\build\x64\vc10\bin /Zi /nologo /W3 /WX- /Od /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"x64\Debug\ImageProcessing.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt ImageProcessingView.cpp
          ImageProcessingView.cpp
      1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
@@ -14,34 +14,14 @@
      1>ImageProcessingView.cpp(496): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
      1>ImageProcessingView.cpp(497): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
      1>ImageProcessingView.cpp(498): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-         Generating Code...
-         Compiling...
-         PropertiesWnd.cpp
-     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
-         OutputWnd.cpp
-     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
-         MainFrm.cpp
-     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
-         ImageProcessingDoc.cpp
-         ImageProcessing.cpp
-     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
-         Huffman.cpp
-     1>Huffman.cpp(111): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
-         GetAngle.cpp
-         FileView.cpp
-     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
-         ClassView.cpp
-     1>d:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\vs2010\VC\include\stdio.h(234) : 参见“fopen”的声明
-         ChildFrm.cpp
-         Generating Code...
+     1>ImageProcessingView.cpp(1025): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+     1>ImageProcessingView.cpp(1026): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+     1>ImageProcessingView.cpp(1112): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+     1>ImageProcessingView.cpp(1163): warning C4309: “=”: 截断常量值
+     1>ImageProcessingView.cpp(1164): warning C4309: “=”: 截断常量值
+     1>ImageProcessingView.cpp(1165): warning C4309: “=”: 截断常量值
        ResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _AFXDLL /l"0x0804" /Ix64\Debug\ /nologo /fo"x64\Debug\ImageProcessing.res" ImageProcessing.rc 
+         所有输出均为最新。
        ManifestResourceCompile:
          所有输出均为最新。
        Link:
@@ -75,4 +55,4 @@
 
 生成成功。
 
-已用时间 00:00:16.37
+已用时间 00:00:02.71

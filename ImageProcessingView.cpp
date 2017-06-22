@@ -93,44 +93,44 @@ void CImageProcessingView::OnDraw(CDC* pDC)
 	//pDC->StretchBlt(0,0,rect.Width(),rect.Height(),&dc,0,0,bmp.bmWidth,bmp.bmHeight,SRCCOPY);
 
 	//HRESULT hr;
- //    CFile file;
- //    file.Open("F:\\813358355578758264.bmp", CFile::modeRead | CFile::shareDenyNone ); // 读入文件内容
- //    DWORD dwSize = file.GetLength();
- //    HGLOBAL hMem = ::GlobalAlloc( GMEM_MOVEABLE, dwSize );
- //    LPVOID lpBuf = ::GlobalLock( hMem );
- //    file.Read( lpBuf, dwSize );
- //    file.Close();
- //    ::GlobalUnlock( hMem );
- //
- //    IStream * pStream = NULL;
- //    IPicture * pPicture = NULL;
- //
- //    // 由HGLOBAL 得到IStream，参数TRUE 表示释放IStream 的同时，释放内存
- //    hr = ::CreateStreamOnHGlobal( hMem, TRUE, &pStream );
- //    ASSERT ( SUCCEEDED(hr) );
- //
- //    hr = ::OleLoadPicture( pStream, dwSize, TRUE, IID_IPicture, ( LPVOID * )&pPicture );
- //    ASSERT(hr==S_OK);
- //
- //    long nWidth,nHeight; // 宽高，MM_HIMETRIC 模式，单位是.01毫米
- //    pPicture->get_Width( &nWidth ); // 宽
- //    pPicture->get_Height( &nHeight ); // 高
- //    ////////原大显示//////
- //    CSize sz( nWidth, nHeight );
- //    pDC->HIMETRICtoDP( &sz ); // 转换MM_HIMETRIC 模式单位为MM_TEXT 像素单位
- //    pPicture->Render(pDC->m_hDC,0,0,sz.cx,sz.cy,
- //                  0,nHeight,nWidth,-nHeight,NULL);
- //
-     ////////按窗口尺寸显示////////
-     // CRect rect; GetClientRect(&rect);
-     // pPicture->Render(pDc->m_hDC,0,0,rect.Width(),rect.Height(),
-     //   0,nHeight,nWidth,-nHeight,NULL);
-/////////////////////////////////
-// 
-//     if ( pPicture ) pPicture->Release();// 释放IPicture 指针
-//     if ( pStream ) pStream->Release(); // 释放IStream 指针，同时释放了hMem
+	//    CFile file;
+	//    file.Open("F:\\813358355578758264.bmp", CFile::modeRead | CFile::shareDenyNone ); // 读入文件内容
+	//    DWORD dwSize = file.GetLength();
+	//    HGLOBAL hMem = ::GlobalAlloc( GMEM_MOVEABLE, dwSize );
+	//    LPVOID lpBuf = ::GlobalLock( hMem );
+	//    file.Read( lpBuf, dwSize );
+	//    file.Close();
+	//    ::GlobalUnlock( hMem );
+	//
+	//    IStream * pStream = NULL;
+	//    IPicture * pPicture = NULL;
+	//
+	//    // 由HGLOBAL 得到IStream，参数TRUE 表示释放IStream 的同时，释放内存
+	//    hr = ::CreateStreamOnHGlobal( hMem, TRUE, &pStream );
+	//    ASSERT ( SUCCEEDED(hr) );
+	//
+	//    hr = ::OleLoadPicture( pStream, dwSize, TRUE, IID_IPicture, ( LPVOID * )&pPicture );
+	//    ASSERT(hr==S_OK);
+	//
+	//    long nWidth,nHeight; // 宽高，MM_HIMETRIC 模式，单位是.01毫米
+	//    pPicture->get_Width( &nWidth ); // 宽
+	//    pPicture->get_Height( &nHeight ); // 高
+	//    ////////原大显示//////
+	//    CSize sz( nWidth, nHeight );
+	//    pDC->HIMETRICtoDP( &sz ); // 转换MM_HIMETRIC 模式单位为MM_TEXT 像素单位
+	//    pPicture->Render(pDC->m_hDC,0,0,sz.cx,sz.cy,
+	//                  0,nHeight,nWidth,-nHeight,NULL);
+	//
+	////////按窗口尺寸显示////////
+	// CRect rect; GetClientRect(&rect);
+	// pPicture->Render(pDc->m_hDC,0,0,rect.Width(),rect.Height(),
+	//   0,nHeight,nWidth,-nHeight,NULL);
+	/////////////////////////////////
+	// 
+	//     if ( pPicture ) pPicture->Release();// 释放IPicture 指针
+	//     if ( pStream ) pStream->Release(); // 释放IStream 指针，同时释放了hMem
 	// CPictureDoc* pDoc = GetDocument();
-//显示位图
+	//显示位图
 	//CDC *pDC = GetDlgItem(ID)->GetDC();
 	if( FLAG ){
 		CSize sizeTotal;
@@ -156,7 +156,7 @@ void CImageProcessingView::OnInitialUpdate()
 	CSize sizeTotal;
 	// TODO: 计算此视图的合计大小
 	SIZE size={3000,1500};
-    SetScrollSizes(MM_TEXT,size);//滚动窗口的最大区域
+	SetScrollSizes(MM_TEXT,size);//滚动窗口的最大区域
 }
 
 // CImageProcessingView 打印
@@ -228,11 +228,11 @@ CImageProcessingDoc* CImageProcessingView::GetDocument() const // 非调试版本是内
 void CImageProcessingView::OnReadimage()
 {
 	CString strFile = "";  
-      
-    CFileDialog    dlgFile(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,_T("PNG(*.png)|*.png|位图文件(*.BMP)|*.BMP|jpg文件(*.jpg)|*.jpg|All Files (*.*)|*.*||")); 
-    if (dlgFile.DoModal())
-    {  
-        strFile = dlgFile.GetPathName();
+
+	CFileDialog    dlgFile(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,_T("PNG(*.png)|*.png|位图文件(*.BMP)|*.BMP|jpg文件(*.jpg)|*.jpg|All Files (*.*)|*.*||")); 
+	if (dlgFile.DoModal())
+	{  
+		strFile = dlgFile.GetPathName();
 		if( strFile == "" ){
 			return;
 		}
@@ -248,7 +248,7 @@ void CImageProcessingView::OnReadimage()
 		if( image != NULL ){
 			FLAG = true;
 		}
-    }
+	}
 	UpdateWindow();
 	// TODO: 在此添加命令处理程序代码
 }
@@ -261,23 +261,23 @@ void CImageProcessingView::OnImageinv()
 	// TODO: 在此添加命令处理程序代码
 	FLAG = false;
 	IplImage *img=image,*outImage=0;  
-    int height,width,step,channels;  
-    uchar *data;  
+	int height,width,step,channels;  
+	uchar *data;  
 	height=img->height;  
-    width=img->width;  
-    step=img->widthStep;  
-    channels=img->nChannels;  
-    data=(uchar*)img->imageData; 
+	width=img->width;  
+	step=img->widthStep;  
+	channels=img->nChannels;  
+	data=(uchar*)img->imageData; 
 	for (int i=0;i<height;++i)  
-    {  
-        for (int j=0;j<width;++j)  
-        {  
-            for (int k=0;k<channels;++k)  
-            {  
-                data[i*step + j*channels + k]=255-data[i*step + j*channels + k];  //每个通道每个像素取反  
-            }  
-        }  
-    }  
+	{  
+		for (int j=0;j<width;++j)  
+		{  
+			for (int k=0;k<channels;++k)  
+			{  
+				data[i*step + j*channels + k]=255-data[i*step + j*channels + k];  //每个通道每个像素取反  
+			}  
+		}  
+	}  
 	FLAG = true;
 	UpdateWindow();
 }
@@ -302,39 +302,39 @@ void CImageProcessingView::OnRotateimage()
 	//int degree =  30;
 	IplImage *img = image;
 	double angle = degree  * CV_PI / 180.;   
-    double a = sin(angle), b = cos(angle);   
-    int width=img->width, height=img->height;  
-    //旋转后的新图尺寸  
-    int width_rotate= int(height * fabs(a) + width * fabs(b));    
-    int height_rotate=int(width * fabs(a) + height * fabs(b));    
-    IplImage* img_rotate = cvCreateImage(cvSize(width_rotate, height_rotate), img->depth, img->nChannels);    
-    cvZero(img_rotate);    
-    //保证原图可以任意角度旋转的最小尺寸  
-    int tempLength = sqrt((double)width * width + (double)height *height) + 10;    
-    int tempX = (tempLength + 1) / 2 - width / 2;    
-    int tempY = (tempLength + 1) / 2 - height / 2;    
-    IplImage* temp = cvCreateImage(cvSize(tempLength, tempLength), img->depth, img->nChannels);    
-    cvZero(temp);    
-    //将原图复制到临时图像tmp中心  
-    cvSetImageROI(temp, cvRect(tempX, tempY, width, height));    
-    cvCopy(img, temp, NULL);    
-    cvResetImageROI(temp);    
-    //旋转数组map  
-    // [ m0  m1  m2 ] ===>  [ A11  A12   b1 ]  
-    // [ m3  m4  m5 ] ===>  [ A21  A22   b2 ]  
-    float m[6];    
-    int w = temp->width;    
-    int h = temp->height;    
-    m[0] = b;    
-    m[1] = a;    
-    m[3] = -m[1];
-    m[4] = m[0];    
-    // 将旋转中心移至图像中间    
-    m[2] = w * 0.5f;    
-    m[5] = h * 0.5f;    
-    CvMat M = cvMat(2, 3, CV_32F, m);    
-    cvGetQuadrangleSubPix(temp, img_rotate, &M);    
-    cvReleaseImage(&temp); 
+	double a = sin(angle), b = cos(angle);   
+	int width=img->width, height=img->height;  
+	//旋转后的新图尺寸  
+	int width_rotate= int(height * fabs(a) + width * fabs(b));    
+	int height_rotate=int(width * fabs(a) + height * fabs(b));    
+	IplImage* img_rotate = cvCreateImage(cvSize(width_rotate, height_rotate), img->depth, img->nChannels);    
+	cvZero(img_rotate);    
+	//保证原图可以任意角度旋转的最小尺寸  
+	int tempLength = sqrt((double)width * width + (double)height *height) + 10;    
+	int tempX = (tempLength + 1) / 2 - width / 2;    
+	int tempY = (tempLength + 1) / 2 - height / 2;    
+	IplImage* temp = cvCreateImage(cvSize(tempLength, tempLength), img->depth, img->nChannels);    
+	cvZero(temp);    
+	//将原图复制到临时图像tmp中心  
+	cvSetImageROI(temp, cvRect(tempX, tempY, width, height));    
+	cvCopy(img, temp, NULL);    
+	cvResetImageROI(temp);    
+	//旋转数组map  
+	// [ m0  m1  m2 ] ===>  [ A11  A12   b1 ]  
+	// [ m3  m4  m5 ] ===>  [ A21  A22   b2 ]  
+	float m[6];    
+	int w = temp->width;    
+	int h = temp->height;    
+	m[0] = b;    
+	m[1] = a;    
+	m[3] = -m[1];
+	m[4] = m[0];    
+	// 将旋转中心移至图像中间    
+	m[2] = w * 0.5f;    
+	m[5] = h * 0.5f;    
+	CvMat M = cvMat(2, 3, CV_32F, m);    
+	cvGetQuadrangleSubPix(temp, img_rotate, &M);    
+	cvReleaseImage(&temp); 
 	cvReleaseImage(&image);
 	image = img_rotate;
 	UpdateWindow();
@@ -349,21 +349,21 @@ void CImageProcessingView::OnMirror()
 	FLAG = false;
 	IplImage *img=image;
 	IplImage *outImage=cvCreateImage(cvSize(img->width, img->height), img->depth, img->nChannels);  
-    int height,width,step,channels;  
+	int height,width,step,channels;  
 	height=img->height;  
-    width=img->width;  
-    step=img->widthStep;  
-    channels=img->nChannels;  
+	width=img->width;  
+	step=img->widthStep;  
+	channels=img->nChannels;  
 	for (int i=0;i<height;++i)
-    {
-        for (int j=0;j<width;++j)
-        {  
-            for (int k=0;k<channels;++k)
-            {  
+	{
+		for (int j=0;j<width;++j)
+		{  
+			for (int k=0;k<channels;++k)
+			{  
 				outImage->imageData[i*step + j*channels + k]=img->imageData[i*step + (width - j - 1)*channels + k];  //每个通道每个像素取反  
-            }  
-        }  
-    }
+			}  
+		}  
+	}
 	image = outImage;
 	cvReleaseImage(&img);
 	FLAG = true;
@@ -377,8 +377,8 @@ void CImageProcessingView::OnFft()
 {
 	// TODO: 在此添加命令处理程序代码
 	FLAG = false;
-    IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-    
+	IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+
 	if(image->nChannels == 3)cvCvtColor(image, gray, CV_RGB2GRAY);
 	cv::Mat src(gray);
 	cv::Mat dest;
@@ -396,8 +396,8 @@ void CImageProcessingView::OnFft()
 
 	dft(complexI, complexI);            // this way the result may fit in the source matrix
 
-										// compute the magnitude and switch to logarithmic scale
-										// => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
+	// compute the magnitude and switch to logarithmic scale
+	// => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
 	split(complexI, planes);                   // planes[0] = Re(DFT(I), planes[1] = Im(DFT(I))
 	magnitude(planes[0], planes[1], planes[0]);// planes[0] = magnitude
 	Mat magI = planes[0];
@@ -427,8 +427,8 @@ void CImageProcessingView::OnFft()
 	tmp.copyTo(q2);
 
 	normalize(magI, magI, 0, 1, NORM_MINMAX); // Transform the matrix with float values into a
-											  // viewable image form (float between values 0 and 1).
-	
+	// viewable image form (float between values 0 and 1).
+
 	gray = image;
 	IplImage temp(magI);
 	image = cvCloneImage(&temp);;
@@ -444,11 +444,11 @@ void CImageProcessingView::OnFft()
 //*******************************************************************
 void CImageProcessingView::OnHistimage()
 {
-// TODO: 在此添加命令处理程序代码
+	// TODO: 在此添加命令处理程序代码
 	FLAG = false;
 	//IplImage* gray;
-    IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-    
+	IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+
 	if(image->nChannels == 3){
 		cvCvtColor(image, gray, CV_RGB2GRAY);
 	}
@@ -457,7 +457,7 @@ void CImageProcessingView::OnHistimage()
 	}
 	cv::Mat src(gray);
 	cv::Mat res;
-	
+
 	equalizeHist(src, res);
 	gray = image;
 	IplImage temp(res);
@@ -476,8 +476,8 @@ void CImageProcessingView::OnPowerenhance()
 {
 	// TODO: 在此添加命令处理程序代码
 	FLAG = false;
-    //IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-    IplImage* gray;
+	//IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+	IplImage* gray;
 	//if(image->nChannels == 3){
 	//	cvCvtColor(image, gray, CV_RGB2GRAY);
 	//}
@@ -502,7 +502,7 @@ void CImageProcessingView::OnPowerenhance()
 	normalize(imageLog, imageLog, 0, 255, CV_MINMAX);
 	//转换成8bit图像显示    
 	convertScaleAbs(imageLog, imageLog);
-	
+
 	gray = image;
 	IplImage temp(imageLog);
 	image = cvCloneImage(&temp);
@@ -520,8 +520,8 @@ void CImageProcessingView::OnSobelimage()
 {
 	// TODO: 在此添加命令处理程序代码
 	FLAG = false;
-    IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-    
+	IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+
 	if(image->nChannels == 3){
 		cvCvtColor(image, gray, CV_RGB2GRAY);
 	}
@@ -552,7 +552,7 @@ void CImageProcessingView::OnSobelimage()
 
 	/// Total Gradient (approximate)
 	addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
-	
+
 	gray = image;
 	IplImage temp(grad);
 	image = cvCloneImage(&temp);;
@@ -572,12 +572,12 @@ void CImageProcessingView::OnLaplaceenhance()
 	FLAG = false;
 	if(image->nChannels == 3 ){
 		IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,3);
-    
+
 		//if(image->nChannels == 3){
 		//	cvCvtColor(image, gray, CV_RGB2GRAY);
 		//}
 		//else{
-			cvCopy(image,gray);
+		cvCopy(image,gray);
 		//}
 		cv::Mat src(gray);
 		cv::Mat res;
@@ -586,19 +586,19 @@ void CImageProcessingView::OnLaplaceenhance()
 		Mat imageEnhance;
 		Mat kernel = (Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);
 		filter2D(src, imageEnhance, CV_8UC3, kernel);
-		
+
 		gray = image;
 		IplImage temp(imageEnhance);
 		image = cvCloneImage(&temp);;
 		cvReleaseImage(&gray);
 	}else{
 		IplImage* gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-    
+
 		//if(image->nChannels == 3){
 		//	cvCvtColor(image, gray, CV_RGB2GRAY);
 		//}
 		//else{
-			cvCopy(image,gray);
+		cvCopy(image,gray);
 		//}
 		cv::Mat src(gray);
 		cv::Mat res;
@@ -607,13 +607,13 @@ void CImageProcessingView::OnLaplaceenhance()
 		Mat imageEnhance;
 		Mat kernel = (Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);
 		filter2D(src, imageEnhance, CV_8UC1, kernel);
-		
+
 		gray = image;
 		IplImage temp(imageEnhance);
 		image = cvCloneImage(&temp);;
 		cvReleaseImage(&gray);
 	}
-    
+
 	//image = outImage;
 	//cvReleaseImage(&img);
 	FLAG = true;
@@ -658,16 +658,16 @@ void CImageProcessingView::OnHuffmanRead()
 	// TODO: 在此添加命令处理程序代码
 	CString strFile = "";
 	CFileDialog    dlgFile(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,_T("All Files (*.*)|*.*||")); 
-    if (dlgFile.DoModal())
-    {  
-        strFile = dlgFile.GetPathName();
+	if (dlgFile.DoModal())
+	{  
+		strFile = dlgFile.GetPathName();
 		if( strFile == "" ){
 			return;
 		}
 		CHuffman hu;
 		hu.filepath = strFile;
 		hu.DoModal();	
-    }
+	}
 }
 
 //*******************************************************************
@@ -686,7 +686,7 @@ void CImageProcessingView::OnRoberts()
 		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
 		cvCopy(image,gray);
 	}
-	
+
 	cvReleaseImage(&image);
 	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
 	cvCopy(gray,image);
@@ -719,55 +719,55 @@ void CImageProcessingView::OnRoberts()
 
 
 
-	//// TODO: 在此添加命令处理程序代码
-	//FLAG = false;
+//// TODO: 在此添加命令处理程序代码
+//FLAG = false;
 
-	//IplImage* gray;
-	//if(image->nChannels==3){
-	//	gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-	//	cvCvtColor(image, gray, CV_RGB2GRAY);
-	//}else{
-	//	gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
-	//	cvCopy(image,gray);
-	//}
-	//
-	//cvReleaseImage(&image);
-	//image = gray;
+//IplImage* gray;
+//if(image->nChannels==3){
+//	gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+//	cvCvtColor(image, gray, CV_RGB2GRAY);
+//}else{
+//	gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+//	cvCopy(image,gray);
+//}
+//
+//cvReleaseImage(&image);
+//image = gray;
 
-	//int step = image->widthStep;
-	//int height = image->height;
-	//int width = image->width;
-	//int channel = image->nChannels;
-	//for( int i = 1; i < height - 1; i++ ){
-	//	for( int j = 1; j < width - 1; j++ ){
-	//		for( int k = 0; k < channel; k++ ){
-	//			int t1 = 0, t2 = 0;
-	//			t1 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
-	//			t1 += -2 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
-	//			t1 += -1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
-	//			t1 += -0 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
-	//			t1 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
-	//			t1 += -0 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
-	//			t1 += 1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
-	//			t1 += 2 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
-	//			t1 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
-	//			t2 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
-	//			t2 += 0 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
-	//			t2 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
-	//			t2 += -2 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
-	//			t2 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
-	//			t2 += 2 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
-	//			t2 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
-	//			t2 += 0 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
-	//			t2 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
-	//			image->imageData[( i ) * step + ( j ) * channel + k ] = (int)std::sqrt((double)t1*t1+t2*t2);
-	//		}
-	//	}
-	//}
-	////image = outImage;
-	////cvReleaseImage(&img);
+//int step = image->widthStep;
+//int height = image->height;
+//int width = image->width;
+//int channel = image->nChannels;
+//for( int i = 1; i < height - 1; i++ ){
+//	for( int j = 1; j < width - 1; j++ ){
+//		for( int k = 0; k < channel; k++ ){
+//			int t1 = 0, t2 = 0;
+//			t1 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+//			t1 += -2 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+//			t1 += -1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+//			t1 += -0 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+//			t1 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+//			t1 += -0 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+//			t1 += 1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+//			t1 += 2 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+//			t1 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+//			t2 += -1 * image->imageData[( i - 1 ) * step + ( j - 1 ) * channel + k ];
+//			t2 += 0 * image->imageData[( i - 1 ) * step + ( j ) * channel + k ];
+//			t2 += 1 * image->imageData[( i - 1 ) * step + ( j + 1 ) * channel + k ];
+//			t2 += -2 * image->imageData[( i ) * step + ( j - 1 ) * channel + k ];
+//			t2 += -0 * image->imageData[( i ) * step + ( j ) * channel + k ];
+//			t2 += 2 * image->imageData[( i ) * step + ( j + 1 ) * channel + k ];
+//			t2 += -1 * image->imageData[( i + 1 ) * step + ( j - 1 ) * channel + k ];
+//			t2 += 0 * image->imageData[( i + 1 ) * step + ( j ) * channel + k ];	
+//			t2 += 1 * image->imageData[( i + 1 ) * step + ( j + 1 ) * channel + k ];
+//			image->imageData[( i ) * step + ( j ) * channel + k ] = (int)std::sqrt((double)t1*t1+t2*t2);
+//		}
+//	}
+//}
+////image = outImage;
+////cvReleaseImage(&img);
 
-	//FLAG = true;
+//FLAG = true;
 //UpdateWindow();
 
 //*******************************************************************
@@ -776,7 +776,7 @@ void CImageProcessingView::OnRoberts()
 void CImageProcessingView::OnSobel()
 {
 	// TODO: 在此添加命令处理程序代码
-		FLAG = false;
+	FLAG = false;
 
 	IplImage* gray;
 	if(image->nChannels==3){
@@ -786,7 +786,7 @@ void CImageProcessingView::OnSobel()
 		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
 		cvCopy(image,gray);
 	}
-	
+
 	cvReleaseImage(&image);
 	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
 	cvCopy(gray,image);
@@ -835,7 +835,7 @@ void CImageProcessingView::OnSobel()
 void CImageProcessingView::OnPrewitt()
 {
 	// TODO: 在此添加命令处理程序代码
-		FLAG = false;
+	FLAG = false;
 
 	IplImage* gray;
 	if(image->nChannels==3){
@@ -845,7 +845,7 @@ void CImageProcessingView::OnPrewitt()
 		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
 		cvCopy(image,gray);
 	}
-	
+
 	cvReleaseImage(&image);
 	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
 	cvCopy(gray,image);
@@ -894,7 +894,7 @@ void CImageProcessingView::OnPrewitt()
 void CImageProcessingView::OnLaplace()
 {
 	// TODO: 在此添加命令处理程序代码
-		FLAG = false;
+	FLAG = false;
 
 	IplImage* gray;
 	if(image->nChannels==3){
@@ -904,7 +904,7 @@ void CImageProcessingView::OnLaplace()
 		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
 		cvCopy(image,gray);
 	}
-	
+
 	cvReleaseImage(&image);
 	image = cvCreateImage(cvGetSize(gray),IPL_DEPTH_8U,1);
 	cvCopy(gray,image);
@@ -953,4 +953,229 @@ void CImageProcessingView::OnLaplace()
 void CImageProcessingView::OnLineardetection()
 {
 	// TODO: 在此添加命令处理程序代码
+	FLAG = false;
+
+	IplImage* gray;
+	if(image->nChannels==3){
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCvtColor(image, gray, CV_RGB2GRAY);
+	}else{
+		gray = cvCreateImage(cvGetSize(image),IPL_DEPTH_8U,1);
+		cvCopy(image,gray);
+	}
+	cvCanny(gray,gray,360,240,3);
+	cvThreshold( gray, gray, 0 , 255,   CV_THRESH_OTSU | CV_THRESH_BINARY_INV);
+	image = SearchLine(gray,0.3);
+	//HoughLineDetect(gray,image,1);
+	cvReleaseImage(&gray);
+	//image = gray;
+	FLAG = true;
+	UpdateWindow();
+}
+
+IplImage* CImageProcessingView::SearchLine(IplImage* img, double Through)
+{
+	double P = 3.1415;
+
+	IplImage* result = cvCreateImage(cvGetSize(img), 8, 1);
+	double MaxDist = sqrt((double)img->width * img->width + img->height * img->height);//这里的rho是[-MaxDist，MaxDist]
+	double MaxAngle = 180;//这里的范围是0-180°
+	double Interval = 1;//这说明遍历的间隔是0.5度
+	//为霍夫坐标域分配空间：因为每算出一次对应的霍夫坐标域下的参数，则对应位置+1，故定义为int型
+	int AreaNum = (int)((1 / Interval )* MaxAngle * MaxDist * 2);
+	int **HoughArea;
+	vector<int> myrho;
+	vector<int> mytheta;
+	HoughArea = new int*[(int)((1/Interval)*MaxAngle)];
+	for (int i = 0; i < (int)((1 / Interval)*MaxAngle); ++i)
+	{
+		HoughArea[i] = new int[2 * (int)MaxDist];
+	}
+	for (int i = 0; i < (int)((1 / Interval)*MaxAngle); ++i)
+	{
+		for (int j = 0; j < 2 * (int)MaxDist; ++j)
+		{
+			HoughArea[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < result->height; ++i)
+	{
+		for (int j = 0; j < result->width; ++j)
+		{
+			((uchar *)(result->imageData + result->widthStep * (i)))[j] = 0;
+		}
+	}
+	/*
+	step 1：开始转换到极坐标下
+	*/
+	int nDist = 0, nAngle = 0;//极坐标下计算的结果，因为要和数组结合起来，故定义成int型
+	double radian = 0;//弧度数
+	for (int i = 0; i < img->height; ++i)
+	{
+		for (int j = 0; j < img->width; ++j)
+		{
+			//cout << ((char *)(img->imageData + img->widthStep * i))[j] << endl;
+			//这是判断是否是前景点，只有前景点（即边缘点）才进一步处理
+			if (((char *)(img->imageData + img->widthStep * i))[j] == 0)
+			{
+				//开始遍历角度，计算极径，转换到极坐标下
+				for (nAngle = 0; nAngle < (1 / Interval)*MaxAngle; ++nAngle)
+				{
+					radian = Interval * nAngle * P / 180;
+					nDist = (j * cos(radian) + i * sin(radian));
+					nDist = nDist + MaxDist;//将rho的范围从-MaxDist，MaxDist转换到0，2*MaxDist
+					if (nDist < 0 || nDist > 2 * MaxDist)
+					{
+						continue;
+					}
+					HoughArea[nAngle][nDist] = HoughArea[nAngle][nDist] + 1;
+				}
+			}
+		}
+	}
+	/*
+	step 2：开始寻找nLine次最大值
+	*/
+	//定义一下清零时的角度和极径范围
+	int DisAllow = 10;
+	int AngleAllow = 5;
+	//定义最大值
+	int MaxValue = 0;
+	int n = 0;//找到的线条数
+	MaxValue = 0;
+	for (int i = 0; i < (int)((1 / Interval)*MaxAngle); ++i)
+	{
+		for (int j = 0; j < 2 * (int)MaxDist; ++j)
+		{
+			if (HoughArea[i][j] > MaxValue)
+			{
+				MaxValue = HoughArea[i][j];
+			}
+		}
+	}
+	// cout << MaxValue << endl;
+	if (MaxValue == 0)
+	{//都等于0则不可能找得到直线
+		return 0;
+	}
+	int x = 0;
+	int throughValue = (int)((double)MaxValue * Through);
+	for (int i = 0; i < (int)((1 / Interval)*MaxAngle); ++i)
+	{
+		for (int j = 0; j < 2 * (int)MaxDist; ++j)
+		{
+			//cout << i << " " << j << endl;
+			//cout << x << endl;
+			//x++;
+			bool repeat = false;
+			for (int ix = 0; ix != myrho.size(); ++ix)
+			{
+				if (abs(i - mytheta[ix]) < 20 && abs(j - myrho[ix]) < 40)
+				{
+					repeat = true;
+					break;
+				}
+			}
+			if (repeat)
+			{
+				continue;
+			}
+			if (HoughArea[i][j] < throughValue)
+			{
+				continue;
+			}
+			bool isLine = true;
+			//非极大值抑制
+			for (int q = -1; q < 2; q++) {
+				for (int w = -1; w < 2; w++) {
+					if (q != 0 || w != 0) {
+						int yf = i + q;
+						int xf = j + w;
+						if (xf < 0) continue;
+						if (yf < 0) continue;
+						if (xf >= 2 * (int)MaxDist) continue;
+						if (yf >= (int)((1 / Interval)*MaxAngle)) continue;
+						if (HoughArea[yf][xf] <= MaxValue) {
+							continue;
+						}
+					}
+					isLine = false;
+					break;
+				}
+				if (isLine)
+				{
+					for (int a = 0; a < img->height; ++a)
+					{
+						for (int b = 0; b < img->width; ++b)
+						{
+							int distance = 0;//通过霍夫坐标点的theta计算rho值
+							distance = (int)(b * cos(Interval * i * P / 180) + a * sin(Interval * i * P / 180)) + MaxDist;
+							if ((distance == j))
+							{
+								((uchar *)(result->imageData + result->widthStep * (a)))[b] = 255;
+							}
+						}
+					}
+					myrho.push_back(j);
+					mytheta.push_back(i);
+				}
+			}
+		}
+	}
+	return result;
+}
+
+void CImageProcessingView::HoughLineDetect(IplImage* binaryimage, IplImage* lpDst, int threshold)
+{//binaryimage是二值图像，threshold是检测阈值
+	double PI = 3.1415;
+	int nSrcLine = binaryimage->widthStep;
+	int roMax = (int)sqrt((double)binaryimage->width * binaryimage->width + binaryimage->height * binaryimage->height) + 1;
+		int* mark = new int[roMax*180];
+		for (int i = 0; i < roMax; i++)
+			for (int j = 0; j < 180; j++)
+				mark[i * 180 + j] = 0;
+		double* theta = new double[180];
+		for (int i = 0; i < 180; i++)
+		{
+			theta[i] = (double)i * PI / 180.0;
+		}
+		double roValue = 0.0;
+		int transValue = 0;
+		for (int y = 0; y < binaryimage->height; y++)
+		{
+			for (int x = 0; x < binaryimage->width; x++)
+			{
+				if (binaryimage->imageData[x  + y * binaryimage->width ] == 0)
+				{
+					for (int k = 0; k < 180; k++)
+					{
+						roValue = (double)x * cos(theta[k]) + (double)y * sin(theta[k]);
+						transValue = (int)(roValue / 2 + roMax / 2);
+						mark[transValue*180+k]++;
+					}
+				}
+			}
+		}
+		for (int y = 0; y < binaryimage->height; y++)
+		{
+			for (int x = 0; x < binaryimage->width; x++)
+			{
+				lpDst->imageData[y*nSrcLine + 3 * x] = 255;
+				lpDst->imageData[y*nSrcLine + 3 * x+1] = 255;
+				lpDst->imageData[y*nSrcLine + 3 * x+2] = 255;
+				int T = x  + y * binaryimage->width ;
+				if (binaryimage->imageData[T] == 0)
+				{
+					for (int k = 0; k < 180; k++)
+					{
+						roValue = (double)x * cos(theta[k]) + (double)y *sin(theta[k]);
+						transValue = (int)(roValue / 2 + roMax / 2);
+						if (mark[transValue*180+ k] > threshold)
+						{
+							lpDst->imageData[y*nSrcLine+3*x] = (byte)0;//做标记
+						}
+					}
+				}
+			}
+		}
 }
