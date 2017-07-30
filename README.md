@@ -1,4 +1,5 @@
 # ImageProcessing
+代码均在ImageProcessingView.cpp中。
 图像处理作业：
 
 - 读取图像
